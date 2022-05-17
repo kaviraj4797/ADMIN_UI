@@ -67,6 +67,7 @@ export class HomeComponent implements OnInit {
       if (value.id == row_obj.id) {
         value.name = row_obj.name;
         value.email = row_obj.email;
+        value.role = row_obj.role;
       }
       return true;
     });
