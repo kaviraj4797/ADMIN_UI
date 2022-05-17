@@ -1,0 +1,97 @@
+<!-- <h1>
+  Wlcome to {{title}}
+   <p *ngFor="let person of personDetail">
+    {{person.id}}<br>
+    {{person.name}}<br>
+    {{person.email}}<br>
+    {{person.role}}<br>
+  </p>
+</h1> -->
+
+<div class="container">
+  <mat-form-field class="example-full-width">
+    <mat-label>Search</mat-label>
+    <input
+      matInput
+      (keyup)="applyFilter($event)"
+      placeholder="search any related to data"
+      #input
+    />
+  </mat-form-field>
+  <button
+    mat-raised-button
+    color="primary"
+    class="deleteButton"
+    (click)="deletedvalues()"
+  >
+    Delete
+  </button>
+<!-- </div> -->
+
+<div class="table-container">
+  <table mat-table [dataSource]="tempData" class="mat-elevation-z3">
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-checkbox [(ngModel)]="checked" (change)="toggle()"> </mat-checkbox>
+      </th>
+
+      <td mat-cell *matCellDef="let person">
+        <mat-checkbox [(ngModel)]="person.checked"> </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef class="tableHead">Action</th>
+      <td mat-cell *matCellDef="let person">
+        <a (click)="openDialog('Update', person)"
+          ><mat-icon class="edit-icon">mode_edit</mat-icon></a
+        >
+        <a class="delete" (click)="removeSelectedRows(person.id)">
+          <mat-icon class="delete-icon">delete</mat-icon>
+          <!-- Delete -->
+        </a>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef class="tableHeading">id</th>
+      <td mat-cell *matCellDef="let person">{{ person.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef class="tableHeading">Name</th>
+      <td mat-cell *matCellDef="let person">{{ person.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef class="tableHeading">Email</th>
+      <td mat-cell *matCellDef="let person">{{ person.email }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="role">
+      <th mat-header-cell *matHeaderCellDef class="tableHeading">Role</th>
+      <td mat-cell *matCellDef="let person">{{ person.role }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">
+        No data matching the filter "{{ input.value }}"
+      </td>
+    </tr>
+  </table>
+  <!-- </div> -->
+
+  <mat-paginator
+    [length]="personDetail.length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[10, 20, 30, 40, 50]"
+    (page)="onPageChange($event)"
+    class="mat-paginator-sticky"
+    [ngStyle]="{ backgroundColor: '#ADD8E6' }"
+  >
+  </mat-paginator>
+</div>
+</div>

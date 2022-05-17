@@ -1,0 +1,97 @@
+table {
+ width: 100%;
+}
+.container{
+  background-color:#FAEBD7;
+  position: sticky;
+
+}
+.example-full-width{
+  margin-left: 16rem;
+  width: 25rem;
+  margin-top: 3rem;
+}
+
+.heading{
+  margin-left: 5rem;
+}
+
+.container{
+  border-radius: 22rem;
+}
+
+.table-container {
+  /* max-height: calc(100vh - 155px); */
+  /* overflow-x: auto; */
+}
+
+/* .mat-elevation-z8{
+  width: 60rem;
+  margin-left: 14rem;
+  border-style: solid;
+  margin-top: 2rem;
+} */
+
+.deleteButton{
+  margin-left: 20rem;
+  width: 8rem;
+  height: 2rem;
+}
+.mat-column-name {
+  width: 20%;
+}
+.mat-column-email {
+  width: 20%;
+}
+
+.tableHeading{
+  font-size: 2rem;
+}
+
+.tableHead{
+  font-size: 2rem;
+}
+
+.editButton{
+  width: 4rem;
+}
+
+.edit-icon{
+  color: rgb(7, 125, 86);
+
+}
+
+/* .table-container{
+  overflow: auto;
+  position:sticky;
+} */
+
+.edit-icon:hover{
+
+  cursor:pointer
+}
+
+.delete-icon{
+  color: red;
+  background-color: transparent;
+}
+.delete-icon:hover{
+  cursor: pointer;
+}
+
+.delete{
+  width: 4rem;
+  margin-left: 2rem;
+}
+
+.mat-paginator-sticky {
+  bottom: 0px;
+  position: sticky;
+
+  width: 100vw;
+}
+
+
+
+
+
