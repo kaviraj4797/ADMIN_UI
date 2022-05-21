@@ -6,6 +6,22 @@ table {
   position: sticky;
 
 }
+
+.selected {
+  background-color: red!important;
+}
+
+.mat-row:nth-child(selected){
+    background-color: #e4f0ec;
+}
+.highlight{
+  color:red;
+  margin: 100000%;
+}
+
+.mat-row:nth-child(.selected){
+    background-color:#ffffff;
+} 
 .example-full-width{
   margin-left: 16rem;
   width: 25rem;

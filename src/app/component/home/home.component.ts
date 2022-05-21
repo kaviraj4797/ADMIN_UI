@@ -42,6 +42,11 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  ngOnChange():void{
+
+    this.tempData.filter((a: any) => !a.checked);
+
+  }
   onPageChange(event: any) {
     this.tempData = this.personDetail.slice(
       event.pageIndex * event.pageSize,
@@ -103,6 +108,7 @@ export class HomeComponent implements OnInit {
     console.log(this.tempData);
     //  this.tempData=this.personDetail
   }
+
 
   applyFilter(event: any) {
     this.v = event.target.value;
