@@ -107,9 +107,9 @@ export class HomeComponent implements OnInit {
   }
 
   deletedvalues() {
-    if(this.checked){
     this.CurrentPageVAlues=this.dataSource.paginator?.pageSize
-    this.checked=''
+    if(this.checked && this.dataSource.data.length===this.CurrentPageVAlues){
+    
     this.dataSource.data= this.dataSource.data.splice(this.CurrentPageVAlues, this.dataSource.data.length);
     this.toggle()
     console.log(this.dataSource.paginator?.pageSize)
@@ -117,15 +117,22 @@ export class HomeComponent implements OnInit {
   
   }else{
     this.dataSource.data=this.dataSource.data.filter((value:any)=>!(value.checked))
+   
   }
+  this.checked=''
+  console.log(this.checked)
+
     
   }
 
   toggle() {
     if (this.checked) {
-      this.dataSource.data.forEach((element: any) => {
+      this.CurrentPageVAlues=this.dataSource.paginator?.pageSize
+      this.dataSource.data.forEach((element: any,index:any) => {
+        if(index< this.CurrentPageVAlues)
         element.checked = true;
       });
+      
     } else {
       this.dataSource.data.forEach((element: any) => {
         element.checked = false;
