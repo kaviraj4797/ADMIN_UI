@@ -20,7 +20,7 @@
 <!-- </div> -->
 
 <div class="table-container">
-  <table mat-table [dataSource]="tempData" class="mat-elevation-z3">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z3">
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef>
         <mat-checkbox [(ngModel)]="checked" (change)="toggle()"> </mat-checkbox>
@@ -75,14 +75,21 @@
   </table>
   <!-- </div> -->
 
-  <mat-paginator
-    [length]="personDetail.length"
+  <mat-paginator #paginator
+    [length]="tempData.length"
     [pageSize]="pageSize"
     [pageSizeOptions]="[10, 20, 30, 40, 50]"
-    (page)="onPageChange($event)"
+    
     class="mat-paginator-sticky"
     [ngStyle]="{ backgroundColor: '#ADD8E6' }"
   >
   </mat-paginator>
+  <!-- <mat-paginator #paginator  [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator> -->
+
+  <!-- <mat-paginator  #paginator
+  [length]="length"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="pageSizeOptions"> -->
+<!-- </mat-paginator> -->
 </div>
 </div>

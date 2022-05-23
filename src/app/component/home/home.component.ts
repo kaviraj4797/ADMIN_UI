@@ -6,13 +6,24 @@ import { MatDialog } from '@angular/material/dialog';
 import { findIndex } from 'rxjs';
 import { NgIf } from '@angular/common';
 import { MatSelect } from '@angular/material/select';
-
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+export interface UserData {
+  id: number;
+  email: string;
+  role:string
+}
+const USER_DATA: UserData[] = [];
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
+
+
 export class HomeComponent implements OnInit {
+
+  length: number;
   title = 'Application';
   unselect = false;
   personDetail = [];
@@ -25,36 +36,40 @@ export class HomeComponent implements OnInit {
     'role',
     'action',
   ];
-  pageSize: any = 10;
+  pageSize: any = '';
   tempData: any = [];
   values: any;
   v: any;
   multiSelect: number[] = [];
   checked = '';
+  dataSource = new MatTableDataSource<UserData>(USER_DATA);
+  CurrentPageVAlues:any
+  
+  // @ViewChild(MatPaginator, {read: true}) paginator: MatPaginator;
+  @ViewChild(MatPaginator) set matPaginator(paginator: MatPaginator) {
+    this.dataSource.paginator = paginator;
+}
 
   constructor(private home: HomeService, public dialog: MatDialog) {}
-
+  
   ngOnInit(): void {
     this.home.getData().subscribe((data) => {
-      this.personDetail = data;
+      this.personDetail= data;
       console.log(this.personDetail);
-      this.tempData = this.personDetail.slice(0, this.pageSize);
+      this.dataSource.data=data
     });
   }
 
-  ngOnChange():void{
 
-    this.tempData.filter((a: any) => !a.checked);
-
-  }
-  onPageChange(event: any) {
-    this.tempData = this.personDetail.slice(
-      event.pageIndex * event.pageSize,
-      (event.pageIndex + 1) * event.pageSize
-    );
-    console.log(event.pageIndex, event.pageSize);
+  applyFilter(event: any) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
+  
   openDialog(action: any, obj: any) {
     obj.action = action;
     const dialogRef = this.dialog.open(EditRowComponent, {
@@ -68,7 +83,7 @@ export class HomeComponent implements OnInit {
   }
 
   updateRowData(row_obj: any) {
-    this.tempData = this.tempData.filter((value: any, key: any) => {
+    this.dataSource.data= this.dataSource.data.filter((value: any, key: any) => {
       if (value.id == row_obj.id) {
         value.name = row_obj.name;
         value.email = row_obj.email;
@@ -80,57 +95,39 @@ export class HomeComponent implements OnInit {
 
   removeSelectedRows(value: any) {
     console.log(value);
-    this.personDetail = this.personDetail.filter((a: any) => !(a.id == value));
-    this.tempData = this.tempData.filter((a: any) => !(a.id == value));
+    this.dataSource.data = this.dataSource.data.filter((a: any) => !(a.id == value));
     console.log(this.tempData);
   }
 
-  // onClickCheckBox(value: number) {
-  //   console.log(value);
-  //   const index = this.multiSelect.indexOf(value);
-  //   if (index < 0) {
-  //     this.multiSelect.push(value);
-  //   } else {
-  //     this.multiSelect.splice(index, 1);
-  //   }
-  //   console.log(this.multiSelect);
-  // }
 
   onClickMultipleRowDelete() {
-    this.tempData = this.tempData.filter(
+    this.dataSource.data = this.dataSource.data.filter(
       (a: any) => !this.multiSelect.includes(a.id)
     );
   }
 
   deletedvalues() {
-    this.personDetail = this.personDetail.filter((a: any) => !a.checked);
-    this.tempData = this.tempData.filter((a: any) => !a.checked);
-    console.log(this.tempData);
-    //  this.tempData=this.personDetail
+    if(this.checked){
+    this.CurrentPageVAlues=this.dataSource.paginator?.pageSize
+    this.checked=''
+    this.dataSource.data= this.dataSource.data.splice(this.CurrentPageVAlues, this.dataSource.data.length);
+    this.toggle()
+    console.log(this.dataSource.paginator?.pageSize)
+  
+  
+  }else{
+    this.dataSource.data=this.dataSource.data.filter((value:any)=>!(value.checked))
   }
-
-
-  applyFilter(event: any) {
-    this.v = event.target.value;
-    console.log(this.v);
-
-    this.tempData = this.personDetail.filter((value: any) => {
-      return (
-        value.name.toLowerCase().includes(this.v.toLowerCase()) ||
-        value.id.indexOf(this.v) > -1 ||
-        value.email.indexOf(this.v) > -1 ||
-        value.role.indexOf(this.v) > -1
-      );
-    });
+    
   }
 
   toggle() {
     if (this.checked) {
-      this.tempData.forEach((element: any) => {
+      this.dataSource.data.forEach((element: any) => {
         element.checked = true;
       });
     } else {
-      this.tempData.forEach((element: any) => {
+      this.dataSource.data.forEach((element: any) => {
         element.checked = false;
       });
     }
