@@ -108,18 +108,18 @@ export class HomeComponent implements OnInit {
 
   deletedvalues() {
     this.CurrentPageVAlues=this.dataSource.paginator?.pageSize
-    if(this.checked && this.dataSource.data.length===this.CurrentPageVAlues){
+    if(this.checked && this.dataSource.data.length==this.CurrentPageVAlues){
     
     this.dataSource.data= this.dataSource.data.splice(this.CurrentPageVAlues, this.dataSource.data.length);
     this.toggle()
     console.log(this.dataSource.paginator?.pageSize)
-  
+    this.checked=''
   
   }else{
     this.dataSource.data=this.dataSource.data.filter((value:any)=>!(value.checked))
-   
+    this.checked=''
   }
-  this.checked=''
+  
   console.log(this.checked)
 
     
@@ -128,7 +128,10 @@ export class HomeComponent implements OnInit {
   toggle() {
     if (this.checked) {
       this.CurrentPageVAlues=this.dataSource.paginator?.pageSize
-      this.dataSource.data.forEach((element: any,index:any) => {
+      const a=this.dataSource._pageData;
+      this.dataSource._pageData(this.dataSource._orderData(this.dataSource.filteredData)).forEach((element: any,index:any,value:any) => {
+        console.log(value)
+        console.log(index)
         if(index< this.CurrentPageVAlues)
         element.checked = true;
       });
